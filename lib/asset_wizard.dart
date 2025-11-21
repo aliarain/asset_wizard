@@ -2,7 +2,7 @@
 ///
 /// This library provides tools for compressing images and detecting unused assets
 /// in Flutter projects.
-library assetkamkaro;
+library asset_wizard;
 
 export 'src/validator.dart';
 export 'src/cli.dart';
@@ -17,14 +17,14 @@ import 'src/features/webp_converter.dart';
 import 'src/features/asset_generator.dart';
 
 /// Main class for asset optimization in Flutter projects.
-class AssetKamKaro {
+class AssetWizard {
   final AssetCompressor _compressor;
   final AssetValidator _validator;
   final WebPConverter _webpConverter;
   final AssetGenerator _assetGenerator;
 
-  /// Creates a new [AssetKamKaro] instance.
-  AssetKamKaro({
+  /// Creates a new [AssetWizard] instance.
+  AssetWizard({
     String? configPath,
     bool enableCache = true,
   })  : _compressor = AssetCompressor(),

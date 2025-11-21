@@ -2,17 +2,17 @@ import 'dart:async';
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
-import '../assetkamkaro.dart';
+import '../asset_wizard.dart';
 import 'features/watcher.dart';
 import 'questionnaire.dart';
 import 'backup_manager.dart';
 
-/// Command-line interface for AssetKamKaro.
-class AssetKamKaroCli {
+/// Command-line interface for AssetWizard.
+class AssetWizardCli {
   final ArgParser _parser;
   late final Logger _logger;
 
-  AssetKamKaroCli() : _parser = ArgParser() {
+  AssetWizardCli() : _parser = ArgParser() {
     _parser
       ..addOption(
         'compression',
@@ -139,7 +139,7 @@ class AssetKamKaroCli {
 
       final progress = _logger.progress('Analyzing project...');
       
-      final optimizer = AssetKamKaro();
+      final optimizer = AssetWizard();
 
       // Create ZIP backup if enabled
       if (results['backup'] as bool && !(results['dry-run'] as bool)) {
@@ -227,7 +227,7 @@ delete_unused: false
   }
 
   Future<void> _cleanProject() async {
-    final backupDir = Directory('.assetkamkaro_backup');
+    final backupDir = Directory('.asset_wizard_backup');
     if (await backupDir.exists()) {
       await backupDir.delete(recursive: true);
       _logger.success('Cleaned up backup files 🧹');
@@ -237,25 +237,25 @@ delete_unused: false
   }
 
   void _printVersion() {
-    _logger.info('AssetKamKaro v0.1.1 🚀');
+    _logger.info('AssetWizard v0.2.0 ✨🧙');
   }
 
   void _printUsage() {
-    _logger.info('Usage: dart run assetkamkaro:optimize [options]');
+    _logger.info('Usage: dart run ak [options]');
     _logger.info(_parser.usage);
   }
 
   void _printLogo(bool cute) {
     if (cute) {
       _logger.info('''
-    _                  _   _  __               _  __               
-   / \\   ___ ___  ___| |_| |/ /__ _ _ __ ___ | |/ /__ _ _ __ ___  
-  / _ \\ / __/ __|/ _ \\ __| ' // _` | '_ ` _ \\| ' // _` | '__/ _ \\ 
- / ___ \\\\__ \\__ \\  __/ |_| . \\ (_| | | | | | | . \\ (_| | | | (_) |
-/_/   \\_\\___/___/\\___|\\__|_|\\_\\__,_|_| |_| |_|_|\\_\\__,_|_|  \\___/ 
-                                                                  
+    _                _  __        ___                  _ 
+   / \\   ___ ___  ___| |_/ \\      / (_)______ _ _ __ __| |
+  / _ \\ / __/ __|/ _ \\ __\\ \\ /\\ / /| |_  / _` | '__/ _` |
+ / ___ \\\\__ \\__ \\  __/ |_ \\ V  V / | |/ / (_| | | | (_| |
+/_/   \\_\\___/___/\\___|\\__| \\_/\\_/  |_/___\\__,_|_|  \\__,_|
+                                                          
       ''');
-      _logger.info('✨ Making your assets smaller and cuter! ✨\n');
+      _logger.info('✨🧙 Making your assets magical and tiny! ✨🧙\n');
     }
   }
 

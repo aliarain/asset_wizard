@@ -17,7 +17,7 @@ class BackupManager {
 
     final timestamp = DateTime.now().toIso8601String().replaceAll(RegExp(r'[:\-\.]'), '_');
     final backupFileName = 'assets_backup_$timestamp.zip';
-    final backupPath = path.join(projectPath, '.assetkamkaro_backup', backupFileName);
+    final backupPath = path.join(projectPath, '.asset_wizard_backup', backupFileName);
     
     // Create backup directory if it doesn't exist
     final backupDir = Directory(path.dirname(backupPath));
@@ -59,7 +59,7 @@ class BackupManager {
 
   /// Lists all available backups in the backup directory.
   Future<List<String>> listBackups(String projectPath) async {
-    final backupDir = Directory(path.join(projectPath, '.assetkamkaro_backup'));
+    final backupDir = Directory(path.join(projectPath, '.asset_wizard_backup'));
     
     if (!await backupDir.exists()) {
       return [];

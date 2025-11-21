@@ -1,7 +1,7 @@
-import 'package:assetkamkaro/src/cli.dart';
+import 'package:asset_wizard/src/cli.dart';
 import 'dart:io';
 
-/// Entry point for the AssetKamKaro CLI tool.
+/// Entry point for the AssetWizard CLI tool.
 ///
 /// This tool helps optimize and manage assets in Flutter projects by:
 /// - Compressing images while maintaining quality
@@ -10,7 +10,7 @@ import 'dart:io';
 ///
 /// Usage:
 /// ```bash
-/// dart run assetkamkaro:optimize [options]
+/// dart run ak [options]
 /// ```
 ///
 /// Options:
@@ -22,7 +22,7 @@ import 'dart:io';
 /// - --config: Path to custom configuration file
 void main(List<String> arguments) async {
   try {
-    final cli = AssetKamKaroCli();
+    final cli = AssetWizardCli();
     await cli.run(arguments);
   } catch (e) {
     stderr.writeln('Error: $e');
