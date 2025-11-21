@@ -8,7 +8,7 @@ import 'package:path/path.dart' as path;
 /// reprocessing of unchanged assets, improving performance.
 ///
 /// The cache is stored in a JSON file within the specified cache directory.
-/// By default, the cache directory is '.assetkamkaro_cache' in the project root.
+/// By default, the cache directory is '.asset_wizard_cache' in the project root.
 class CacheManager {
   /// The directory where cache files are stored.
   final String _cacheDir;
@@ -19,9 +19,9 @@ class CacheManager {
   /// Creates a new CacheManager instance.
   ///
   /// [cacheDir] specifies the directory where cache files will be stored.
-  /// If not provided, defaults to '.assetkamkaro_cache'.
+  /// If not provided, defaults to '.asset_wizard_cache'.
   CacheManager({String? cacheDir})
-      : _cacheDir = cacheDir ?? '.assetkamkaro_cache';
+      : _cacheDir = cacheDir ?? '.asset_wizard_cache';
 
   /// Gets the cached hash for a file if it exists.
   ///

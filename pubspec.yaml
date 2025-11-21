@@ -1,10 +1,10 @@
-name: assetkamkaro
-description: A powerful Flutter package for optimizing and managing assets in your Flutter project. Helps reduce app size, improve loading times, and maintain clean asset management.
-version: 0.1.1
-homepage: https://github.com/aliarain/assetkamkaro
-repository: https://github.com/aliarain/assetkamkaro.git
-issue_tracker: https://github.com/aliarain/assetkamkaro/issues
-documentation: https://github.com/aliarain/assetkamkaro#readme
+name: asset_wizard
+description: A magical Flutter CLI tool that compresses images, removes unused assets, generates type-safe classes, creates ZIP backups and shrinks your app size in seconds.
+version: 0.2.1
+homepage: https://github.com/aliarain/asset_wizard
+repository: https://github.com/aliarain/asset_wizard.git
+issue_tracker: https://github.com/aliarain/asset_wizard/issues
+documentation: https://github.com/aliarain/asset_wizard#readme
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -18,6 +18,13 @@ dependencies:
   image: ^4.1.7
   path: ^1.8.3
   yaml: ^3.1.2
+  mason_logger: ^0.2.10
+  watcher: ^1.1.0
+  dart_style: ^2.3.4
+  archive: ^3.4.10
+
+executables:
+  ak: ak
 
 dev_dependencies:
   flutter_test:

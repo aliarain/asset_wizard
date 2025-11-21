@@ -1,17 +1,17 @@
-import 'package:assetkamkaro/assetkamkaro.dart';
+import 'package:asset_wizard/asset_wizard.dart';
 import 'dart:io';
 
-/// A simple example demonstrating basic usage of AssetKamKaro.
+/// A simple example demonstrating basic usage of AssetWizard.
 ///
 /// This example shows how to:
 /// 1. Create an optimizer instance
 /// 2. Run optimization with custom settings
 /// 3. Handle the results
 void main() async {
-  print('Starting AssetKamKaro optimization...');
+  print('Starting AssetWizard optimization...');
 
-  // Create optimizer with default settings
-  final optimizer = AssetKamKaro(
+  // Create an optimizer instance
+  final optimizer = AssetWizard(
     enableCache: true,
   );
 

@@ -1,5 +1,80 @@
 # Changelog
 
+## [0.2.0] - 2025-11-21 – The Rebirth Update ✨🧙
+
+### 🎉 Major Changes
+- **BREAKING:** Renamed package from `assetkamkaro` to `asset_wizard`
+- **BREAKING:** Renamed main class from `AssetKamKaro` to `AssetWizard`
+- **BREAKING:** Renamed CLI class from `AssetKamKaroCli` to `AssetWizardCli`
+- Updated package description to emphasize magical, fast asset optimization
+- Bumped version to 0.2.0 to reflect breaking changes
+
+### ✨ New Features
+- Interactive questionnaire mode (`--interactive` or `-i` flag)
+- ZIP backup system with timestamped backups
+- Shortened command: `dart run ak` (was `dart run assetkamkaro:optimize`)
+- New commands: `init`, `clean`, `version`
+- "Cute mode" with ASCII art logo and emojis (enabled by default)
+- Asset class generator for type-safe asset references
+- Watch mode for automatic optimization on file changes
+- WebP converter (placeholder for future implementation)
+
+### 🐛 Bug Fixes
+- Fixed unsafe type casting for `YamlMap` and `YamlList` in validator
+- Fixed code style issues (curly braces in flow control)
+- Removed unused imports throughout codebase
+- Fixed CLI command parsing to use positional arguments
+
+### 📦 Dependencies
+- Added `mason_logger: ^0.2.10` for beautiful CLI output
+- Added `watcher: ^1.1.0` for file system watching
+- Added `dart_style: ^2.3.4` for code formatting
+- Added `archive: ^3.4.10` for ZIP compression
+
+### 🔄 Migration Guide
+If you were using `assetkamkaro`:
+
+1. Update your `pubspec.yaml`:
+   ```yaml
+   dependencies:
+     asset_wizard: ^0.2.0  # was: assetkamkaro: ^0.1.1
+   ```
+
+2. Update imports:
+   ```dart
+   // Old:
+   import 'package:assetkamkaro/assetkamkaro.dart';
+   
+   // New:
+   import 'package:asset_wizard/asset_wizard.dart';
+   ```
+
+3. Update class names:
+   ```dart
+   // Old:
+   final optimizer = AssetKamKaro();
+   
+   // New:
+   final optimizer = AssetWizard();
+   ```
+
+4. Update CLI commands:
+   ```bash
+   # Old:
+   dart run assetkamkaro:optimize --help
+   
+   # New:
+   dart run ak --help
+   ```
+
+### 📝 Internal Changes
+- Renamed backup directory from `.assetkamkaro_backup` to `.asset_wizard_backup`
+- Renamed cache directory from `.assetkamkaro_cache` to `.asset_wizard_cache`
+- Updated ASCII logo to "AssetWizard" with magical theme
+- Updated all documentation and comments
+
+---
+
 ## [0.1.1] - 2024-03-21
 
 ### Fixed

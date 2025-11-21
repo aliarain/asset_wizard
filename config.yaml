@@ -1,0 +1,13 @@
+compression:
+  level: medium
+  jpeg:
+    quality: 80
+  png:
+    level: 9
+
+exclude:
+  - assets/icons
+  - assets/backgrounds
+
+backup: true
+delete_unused: false
