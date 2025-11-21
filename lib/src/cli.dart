@@ -237,7 +237,7 @@ delete_unused: false
   }
 
   void _printVersion() {
-    _logger.info('AssetWizard v0.2.0 ✨🧙');
+    _logger.info('AssetWizard v0.2.1 ✨🧙');
   }
 
   void _printUsage() {

@@ -1,6 +1,6 @@
 name: asset_wizard
 description: A magical Flutter CLI tool that compresses images, removes unused assets, generates type-safe classes, creates ZIP backups and shrinks your app size in seconds.
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/aliarain/asset_wizard
 repository: https://github.com/aliarain/asset_wizard.git
 issue_tracker: https://github.com/aliarain/asset_wizard/issues
