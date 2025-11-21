@@ -12,15 +12,16 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'src/compressor.dart';
 import 'src/validator.dart';
-import 'src/cache_manager.dart';
 import 'src/types.dart';
-import 'src/progress_reporter.dart';
+import 'src/features/webp_converter.dart';
+import 'src/features/asset_generator.dart';
 
 /// Main class for asset optimization in Flutter projects.
 class AssetKamKaro {
   final AssetCompressor _compressor;
   final AssetValidator _validator;
-  final CacheManager _cacheManager;
+  final WebPConverter _webpConverter;
+  final AssetGenerator _assetGenerator;
 
   /// Creates a new [AssetKamKaro] instance.
   AssetKamKaro({
@@ -28,8 +29,8 @@ class AssetKamKaro {
     bool enableCache = true,
   })  : _compressor = AssetCompressor(),
         _validator = const AssetValidator(),
-        _cacheManager =
-            enableCache ? CacheManager() : CacheManager(cacheDir: null);
+        _webpConverter = WebPConverter(),
+        _assetGenerator = AssetGenerator();
 
   /// Optimizes assets in the specified project.
   ///
@@ -39,6 +40,8 @@ class AssetKamKaro {
   /// [createBackup] if true, creates backups before optimization.
   /// [excludePatterns] list of patterns to exclude from optimization.
   /// [deleteUnused] if true, deletes unused assets.
+  /// [convertWebP] if true, converts images to WebP.
+  /// [generateClass] if true, generates AppAssets class.
   ///
   /// Returns an [OptimizationResult] containing optimization details.
   Future<OptimizationResult> optimize({
@@ -48,6 +51,8 @@ class AssetKamKaro {
     bool createBackup = true,
     List<String> excludePatterns = const [],
     bool deleteUnused = false,
+    bool convertWebP = false,
+    bool generateClass = false,
   }) async {
     final analysis = await _validator.analyzeAssets(projectPath);
     final compressionResults = <String, CompressionResult>{};
@@ -57,10 +62,24 @@ class AssetKamKaro {
       final asset = entry.value;
       if (asset.type == 'image' && !_isExcluded(asset.path, excludePatterns)) {
         final file = File(path.join(projectPath, asset.path));
-        final result = await _compressor.compressImage(file);
-        compressionResults[asset.path] = result;
-        totalSizeReduction += result.originalSize - result.compressedSize;
+        
+        if (!dryRun) {
+           final result = await _compressor.compressImage(file);
+           compressionResults[asset.path] = result;
+           totalSizeReduction += result.originalSize - result.compressedSize;
+
+           if (convertWebP) {
+             await _webpConverter.convert(file.path);
+           }
+        }
       }
+    }
+
+    if (generateClass && !dryRun) {
+      await _assetGenerator.generate(
+        projectPath, 
+        analysis.assets.keys.map((e) => path.join(projectPath, e)).toList()
+      );
     }
 
     return OptimizationResult(

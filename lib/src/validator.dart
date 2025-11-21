@@ -21,27 +21,32 @@ class AssetValidator {
     }
 
     final pubspecContent = await pubspecFile.readAsString();
-    final pubspec = loadYaml(pubspecContent) as YamlMap;
+    final pubspec = loadYaml(pubspecContent);
+    if (pubspec is! YamlMap) {
+       throw FileSystemException('Invalid pubspec.yaml format');
+    }
 
     final assets = <String, AssetMetadata>{};
     final unusedAssets = <String>[];
 
     // Extract assets from pubspec.yaml
     if (pubspec.containsKey('flutter')) {
-      final flutter = pubspec['flutter'] as YamlMap;
-      if (flutter.containsKey('assets')) {
-        final assetList = flutter['assets'] as YamlList;
-        for (final asset in assetList) {
-          final assetPath = asset.toString();
-          final file = File(path.join(projectPath, assetPath));
+      final flutter = pubspec['flutter'];
+      if (flutter is YamlMap && flutter.containsKey('assets')) {
+        final assetList = flutter['assets'];
+        if (assetList is YamlList) {
+          for (final asset in assetList) {
+            final assetPath = asset.toString();
+            final file = File(path.join(projectPath, assetPath));
 
-          if (file.existsSync()) {
-            final size = await file.length();
-            assets[assetPath] = AssetMetadata(
-              path: assetPath,
-              size: size,
-              type: _getAssetType(assetPath),
-            );
+            if (file.existsSync()) {
+              final size = await file.length();
+              assets[assetPath] = AssetMetadata(
+                path: assetPath,
+                size: size,
+                type: _getAssetType(assetPath),
+              );
+            }
           }
         }
       }
@@ -112,8 +117,9 @@ class AssetValidator {
   String _formatFileSize(int bytes) {
     if (bytes < 1024) return '$bytes B';
     if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(2)} KB';
-    if (bytes < 1024 * 1024 * 1024)
+    if (bytes < 1024 * 1024 * 1024) {
       return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+    }
     return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
 
