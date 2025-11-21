@@ -121,9 +121,35 @@ class AssetKamKaroCli {
 
       _printLogo(results['cute'] as bool);
 
+      // Handle interactive mode
+      String compressionLevel = results['compression'] as String;
+      bool deleteUnused = results['delete-unused'] as bool;
+      bool generateClass = results['generate-class'] as bool;
+      bool convertWebP = results['webp'] as bool;
+
+      if (results['interactive'] as bool) {
+        final questionnaire = InteractiveQuestionnaire(_logger);
+        final preferences = await questionnaire.run();
+        
+        compressionLevel = preferences['compressionLevel'] as String;
+        deleteUnused = preferences['deleteUnused'] as bool;
+        generateClass = preferences['generateClass'] as bool;
+        convertWebP = preferences['convertWebP'] as bool;
+      }
+
       final progress = _logger.progress('Analyzing project...');
       
       final optimizer = AssetKamKaro();
+
+      // Create ZIP backup if enabled
+      if (results['backup'] as bool && !(results['dry-run'] as bool)) {
+        progress.update('Creating ZIP backup...');
+        final backupManager = BackupManager();
+        final backupPath = await backupManager.createZipBackup(Directory.current.path);
+        if (backupPath != null) {
+          _logger.info('📦 Backup created: $backupPath');
+        }
+      }
 
       if (results['watch'] as bool) {
         _logger.info('Starting watch mode... 👀');
@@ -136,13 +162,13 @@ class AssetKamKaroCli {
             // but ideally we should only process the changed file.
              final result = await optimizer.optimize(
               projectPath: Directory.current.path,
-              compressionLevel: _parseCompressionLevel(results['compression'] as String),
+              compressionLevel: _parseCompressionLevel(compressionLevel),
               dryRun: results['dry-run'] as bool,
               createBackup: false, // Don't backup repeatedly in watch mode
               excludePatterns: results['exclude'] as List<String>,
-              deleteUnused: false,
-              convertWebP: results['webp'] as bool,
-              generateClass: results['generate-class'] as bool,
+              deleteUnused: deleteUnused,
+              convertWebP: convertWebP,
+              generateClass: generateClass,
             );
             _printResult(result, results['cute'] as bool);
           },
@@ -156,13 +182,13 @@ class AssetKamKaroCli {
 
       final result = await optimizer.optimize(
         projectPath: Directory.current.path,
-        compressionLevel: _parseCompressionLevel(results['compression'] as String),
+        compressionLevel: _parseCompressionLevel(compressionLevel),
         dryRun: results['dry-run'] as bool,
         createBackup: results['backup'] as bool,
         excludePatterns: results['exclude'] as List<String>,
-        deleteUnused: results['delete-unused'] as bool,
-        convertWebP: results['webp'] as bool,
-        generateClass: results['generate-class'] as bool,
+        deleteUnused: deleteUnused,
+        convertWebP: convertWebP,
+        generateClass: generateClass,
       );
 
       progress.complete('Optimization complete!');
